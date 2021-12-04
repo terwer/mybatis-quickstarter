@@ -14,17 +14,17 @@ import java.util.List;
 public class MyBatisTest {
     @Test
     public void test() throws Exception {
-InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
+        InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
 
-SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
 
-List<User> users = sqlSession.selectList("user.findAll");
+        List<User> users = sqlSession.selectList("user.findAll");
 
-for (User user : users) {
-    System.out.println(user);
-}
+        for (User user : users) {
+            System.out.println(user);
+        }
 
-sqlSession.close();
+        sqlSession.close();
     }
 }
