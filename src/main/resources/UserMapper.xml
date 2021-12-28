@@ -7,7 +7,7 @@
 -->
 <mapper namespace="com.test.dao.IUserDao">
     <!-- 查询用户 -->
-    <select id="findAll" resultType="com.test.pojo.User">
+    <select id="findAll" resultType="useR">
         select * from user
     </select>
 
