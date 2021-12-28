@@ -1,7 +1,6 @@
 package com.test.test;
 
 import com.test.dao.IUserDao;
-import com.test.dao.UserDaoImpl;
 import com.test.pojo.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -79,7 +78,14 @@ public class MyBatisTest {
 
     @Test
     public void test5() throws Exception{
-        IUserDao userDao = new UserDaoImpl();
+
+        InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
+
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        // 获取代理对象
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
         List<User> all = userDao.findAll();
 
         for (User user : all) {
