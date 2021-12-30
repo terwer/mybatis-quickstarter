@@ -25,6 +25,7 @@
     </delete>
 
     <!-- if条件查询 -->
+    <!--
     <select id="findByCondition" parameterType="user" resultType="user">
         select * from user where 1=1
         <if test="id != null">
@@ -33,5 +34,18 @@
         <if test="username != null">
             and username=#{username}
         </if>
+    </select>
+    -->
+    <!-- 推荐方式，能够自动处理and -->
+    <select id="findByCondition" parameterType="user" resultType="user">
+        select * from user
+        <where>
+            <if test="id != null">
+                and id=#{id}
+            </if>
+            <if test="username != null">
+                and username=#{username}
+            </if>
+        </where>
     </select>
 </mapper>
