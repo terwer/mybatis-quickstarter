@@ -127,4 +127,22 @@ public class MyBatisTest {
         sqlSession.close();
     }
 
+    @Test
+    public void test7() throws Exception {
+        InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
+
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
+
+        Integer[] ids = {1, 2};
+        List<User> all = userDao.findByIds(ids);
+
+        for (User user1 : all) {
+            System.out.println(user1);
+        }
+
+        sqlSession.close();
+    }
 }

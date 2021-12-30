@@ -14,4 +14,6 @@ public interface IUserDao {
     public void deleteUser(Integer id) throws Exception;
 
     public List<User> findByCondition(User user) throws Exception;
+
+    public List<User> findByIds(Integer[] ids) throws Exception;
 }

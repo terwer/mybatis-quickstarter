@@ -4,6 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.test.dao.IUserDao">
+    <!-- sql模板 -->
+    <sql id="selectUserTemplate">
+        select * from user
+    </sql>
+
     <!-- 查询用户 -->
     <select id="findAll" resultType="useR">
         select * from user
@@ -46,6 +51,16 @@
             <if test="username != null">
                 and username=#{username}
             </if>
+        </where>
+    </select>
+
+    <!-- foreach -->
+    <select id="findByIds" parameterType="user" resultType="user">
+        <include refid="selectUserTemplate"/>
+        <where>
+            <foreach collection="array" item="id" open="id in (" close=")" separator=",">
+                #{id}
+            </foreach>
         </where>
     </select>
 </mapper>
