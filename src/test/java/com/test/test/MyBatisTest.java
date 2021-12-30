@@ -19,7 +19,9 @@ public class MyBatisTest {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
-        List<User> users = sqlSession.selectList("user.findAll");
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
+        List<User> users = userDao.findAll();
+        // List<User> users = sqlSession.selectList("user.findAll");
 
         for (User user : users) {
             System.out.println(user);
@@ -33,13 +35,17 @@ public class MyBatisTest {
         InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
 
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession sqlSession = sqlSessionFactory.openSession(true);
 
         User user = new User();
         user.setUsername("哈哈1");
-        sqlSession.insert("user.saveUser", user);
+
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
+        userDao.saveUser(user);
+
+        // sqlSession.insert("user.saveUser", user);
         // 注意：一定要提交事务
-        sqlSession.commit();
+        // sqlSession.commit();
 
         sqlSession.close();
     }
@@ -49,14 +55,18 @@ public class MyBatisTest {
         InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
 
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession sqlSession = sqlSessionFactory.openSession(true);
 
         User user = new User();
         user.setId(5);
-        user.setUsername("哈哈2");
-        sqlSession.insert("user.updateUser", user);
+        user.setUsername("dali");
+
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
+        userDao.updateUser(user);
+
+        //  sqlSession.insert("user.updateUser", user);
         // 注意：一定要提交事务
-        sqlSession.commit();
+        // sqlSession.commit();
 
         sqlSession.close();
     }
@@ -67,17 +77,20 @@ public class MyBatisTest {
         InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
 
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession sqlSession = sqlSessionFactory.openSession(true);
 
-        sqlSession.insert("user.deleteUser", 3);
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
+        userDao.deleteUser(8);
+
+        // sqlSession.insert("user.deleteUser", 8);
         // 注意：一定要提交事务
-        sqlSession.commit();
+        // sqlSession.commit();
 
         sqlSession.close();
     }
 
     @Test
-    public void test5() throws Exception{
+    public void test5() throws Exception {
 
         InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
 
@@ -94,17 +107,21 @@ public class MyBatisTest {
     }
 
     @Test
-    public void test6() throws Exception{
+    public void test6() throws Exception {
         InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
 
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
         IUserDao userDao = sqlSession.getMapper(IUserDao.class);
-        List<User> all = userDao.findAll();
 
-        for (User user : all) {
-            System.out.println(user);
+        User user = new User();
+        user.setId(1);
+        user.setUsername("tyw");
+        List<User> all = userDao.findByCondition(user);
+
+        for (User user1 : all) {
+            System.out.println(user1);
         }
 
         sqlSession.close();

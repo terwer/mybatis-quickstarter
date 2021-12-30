@@ -2,9 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--
-<mapper namespace="user">
--->
+
 <mapper namespace="com.test.dao.IUserDao">
     <!-- 查询用户 -->
     <select id="findAll" resultType="useR">
@@ -21,7 +19,19 @@
         update user set username=#{username} where id=#{id}
     </update>
 
+    <!-- 删除用户 -->
     <delete id="deleteUser" parameterType="java.lang.Integer">
         delete from user where id=#{xyz}
     </delete>
+
+    <!-- if条件查询 -->
+    <select id="findByCondition" parameterType="user" resultType="user">
+        select * from user where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="username != null">
+            and username=#{username}
+        </if>
+    </select>
 </mapper>
